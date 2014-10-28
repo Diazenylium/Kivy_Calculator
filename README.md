@@ -1,2 +1,1 @@
-Kivy_Calculator
-===============
+A simple calculator in kivy.
