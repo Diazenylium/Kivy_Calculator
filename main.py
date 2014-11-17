@@ -1,4 +1,5 @@
 from __future__ import division
+from decimal import Decimal, getcontext
 import math
 import re
 
@@ -12,12 +13,27 @@ from kivy.uix.scrollview import ScrollView
 Builder.load_file('main.kv')
 
 
+def factorial(x):
+    walrus = 1
+    if x == 0:
+        walrus = 1
+    for i in range(1, x+1):
+        walrus *= i
+    return walrus
+
+
 class LayoutWidget(BoxLayout):
     @staticmethod
+    def until_other(x):
+        i = -1
+        while x[i:].isdigit():
+            i -= 1
+        return x[i+1:]
+
     def evaluate(n):
         # .strip makes 01 -> 1 to evade 'invalid token' error.
-        # .replace changes ^ to ** to evaluate
-        n = n.strip('0').replace('^', '**')
+        # .replace changes ^ to ** to evaluate exponents
+        n = n.lstrip('0').replace('^', '**')
         if eval(n):
             return str(eval(n))
         else:
