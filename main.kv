@@ -62,7 +62,7 @@
                 text: '!'
                 font_size: 20
                 size_hint_y: 1
-                on_release: display.text = 'factorial(' + display.text + ')'
+                on_release: display.text += '!'
 
         BoxLayout:
             orientation: 'horizontal'
@@ -87,7 +87,7 @@
                     text: 'Φ'
                     font_size: 20
                     size_hint_y: 1
-                    on_release: display.text += str((1+5**.5)/2)
+                    on_release: display.text += 'Φ'
 
             BoxLayout:
                 orientation: 'vertical'
@@ -162,5 +162,3 @@
                         font_size: 20
                         size_hint_y: 1
                         on_release: display.text = root.evaluate(display.text)
-
-

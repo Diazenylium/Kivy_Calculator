@@ -1,5 +1,5 @@
 from __future__ import division
-from decimal import Decimal, getcontext
+# -*- coding: utf-8 -*-
 import math
 import re
 
@@ -14,30 +14,30 @@ Builder.load_file('main.kv')
 
 
 def factorial(x):
-    walrus = 1
-    if x == 0:
-        walrus = 1
-    for i in range(1, x+1):
-        walrus *= i
-    return walrus
+    return math.gamma(x+1)
 
 
 class LayoutWidget(BoxLayout):
     @staticmethod
+    def evaluate(n):
+        # .strip makes 01 -> 1 to evade 'invalid token' error.
+        # .replace changes ^ to ** to evaluate exponents
+        # we also need to do a thing where it evaluates e and phi instead of just adding them to the screen
+        if '!' in n:
+            factorial_string = str(re.findall(r'\((.*?)\!', str(n)))[2:-3]
+            n = n.replace(factorial_string, 'factorial(' + factorial_string + ')').replace('!', '')
+
+        n = n.lstrip('0').replace('^', '**').replace('Φ', str((1+5**.5)/2))
+        try:
+            return str(eval(n))
+        except:
+            return 'YOU ARE A BAD CHILD'
+
     def until_other(x):
         i = -1
         while x[i:].isdigit():
             i -= 1
         return x[i+1:]
-
-    def evaluate(n):
-        # .strip makes 01 -> 1 to evade 'invalid token' error.
-        # .replace changes ^ to ** to evaluate exponents
-        n = n.lstrip('0').replace('^', '**')
-        if eval(n):
-            return str(eval(n))
-        else:
-            return '0'
 
 
 class Calculator(App):
